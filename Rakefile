@@ -32,9 +32,14 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
 end
 
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
+RSpec::Core::RakeTask.new(:rcov) do |spec|  
+  spec.pattern    = 'spec/**/*_spec.rb'
+  spec.rcov_opts  = ["--sort coverage",  
+                     "--profile",
+                     "--rails",
+                     "--exclude /gems/,/Library/,spec/rvm"]
   spec.rcov = true
+  
 end
 
 task :default => :spec

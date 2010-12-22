@@ -106,19 +106,6 @@ class Date
   end
 
   
-  
-  
-  def next_business_day
-    if [0,1,2,3,4].include?(self.wday)
-      self + 1.day
-    elsif self.wday == 5
-      self + 3.days
-    elsif self.wday == 6
-      self + 2.days
-    end
-  end
-  
-  
   def monday?
     self.wday == 1
   end
