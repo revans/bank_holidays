@@ -31,6 +31,8 @@ class Date
       
       # if day is not null
       if day[:day]        
+        
+        # parse the holiday to a date object
         current_holiday = Date.parse("#{self.year}/#{day[:month]}/#{day[:day]}")
  
         # if holiday day is the same as the current day, it's a holiday
@@ -59,9 +61,6 @@ class Date
         
         holiday = true if (self.to_s == current_holiday.to_s)
         
-      # nothing we can do
-      else
-        puts "No Day #{day.inspect}"
       end
     end
     

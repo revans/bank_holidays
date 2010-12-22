@@ -36,6 +36,12 @@ describe Date do
       
       @day_before_new_years_2012  = Date.parse("2012/12/30")
       @day_after_new_years_2012   = Date.parse("2012/01/2")
+      
+      @no_holiday                 = Date.parse("2011/10/01")
+    end
+    
+    it "should be false when testing for no holiday" do
+      @no_holiday.bank_holiday?.should be_false
     end
     
     it "should return false for the day before New Years 2012" do
@@ -160,35 +166,40 @@ describe Date do
   
   describe "Days of the week" do
     before(:all) do
-      @today = Date.parse("2010/12/20")
+      @today  = Date.parse("2010/12/20")
+      @sunday = Date.parse("2010/12/12")
     end
     
     it "should return true when asked if it is monday" do
-      @today.monday?.should == true
+      @today.monday?.should be_true
     end
     
     it "should return false when asked if it is tuesday" do
-      @today.tuesday?.should == false
+      @today.tuesday?.should be_false
     end
     
     it "should return false when asked if it is wednesday" do
-      @today.wednesday?.should == false
+      @today.wednesday?.should be_false
     end
     
     it "should return false when asked if it is thursday" do
-      @today.thursday?.should == false
+      @today.thursday?.should be_false
     end
     
     it "should return false when asked if it is friday" do
-      @today.friday?.should == false
+      @today.friday?.should be_false
     end
     
     it "should return false when asked if it is saturday" do
-      @today.saturday?.should == false
+      @today.saturday?.should be_false
     end
     
     it "should return false when asked if it is sunday" do
-      @today.sunday?.should == false
+      @today.sunday?.should be_false
+    end
+    
+    it "should return true when testing for sunday" do
+      @sunday.sunday?.should be_true
     end
     
   end
