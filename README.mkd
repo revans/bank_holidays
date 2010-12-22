@@ -7,7 +7,7 @@ so the day before is the actual bank holiday.
 
 ## Usage
 
-  Date.today.bank_holiday? # => yields either true or false
+    Date.today.bank_holiday? # => yields either true or false
 
 ## Patches
 
