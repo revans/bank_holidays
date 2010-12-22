@@ -12,3 +12,7 @@ so the day before is the actual bank holiday.
 ## Patches
 
 Submit your pull requests for review if you have patches and/or additions.
+
+## Notes
+
+This was written for Ruby 1.8.7 and has been tested with Ruby 1.9.2-p0 and all specs are passing. However, there is room for code cleanup for Ruby 1.9.2.
