@@ -1,0 +1,14 @@
+# Bank Holiday
+
+Extends the Date Object to get a boolean response, for a given date instance, to see if it is a bank holiday.
+
+Currently, it handles U.S. Federal Holidays. It does take into account things like Christmas being on Saturday, 
+so the day before is the actual bank holiday.
+
+## Usage
+
+  Date.today.bank_holiday? # => yields either true or false
+
+## Patches
+
+Submit your pull requests for review if you have patches and/or additions.
