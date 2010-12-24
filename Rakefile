@@ -54,3 +54,10 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+
+desc "view date docs"
+task :view_docs do
+  file = File.expand_path(File.join(File.dirname(__FILE__), 'docs/lib/core_ext/date.html'))
+  system("open -a safari #{file}")
+end

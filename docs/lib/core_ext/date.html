@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>date.rb</title>
+  <link rel="stylesheet" href="http://jashkenas.github.com/docco/resources/docco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div id="jump_to">
+    Jump To &hellip;
+    <div id="jump_wrapper">
+      <div id="jump_page">
+        <a class="source" href="date.html">date.rb</a>
+        <a class="source" href="numeric.html">numeric.rb</a>
+        </div>
+    </div>
+  </div>
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>date.rb</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-1'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-1">#</a>
+        </div>
+        
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
+<span class="k">class</span> <span class="nc">Date</span>
+  
+  <span class="no">HOLIDAYS</span> <span class="o">=</span> <span class="o">[</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;New Years Day&#39;</span><span class="p">,</span>        <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>    <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>   <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Martin Luther King&#39;</span><span class="p">,</span>   <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>    <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>     <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Presidents Day&#39;</span><span class="p">,</span>       <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>    <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>     <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Memorial Day&#39;</span><span class="p">,</span>         <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>    <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>     <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Independence Day&#39;</span><span class="p">,</span>     <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span>    <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>   <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">7</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Labor Day&#39;</span><span class="p">,</span>            <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>    <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>     <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">9</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Columbus Day&#39;</span><span class="p">,</span>         <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span>    <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>     <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Veterans Day&#39;</span><span class="p">,</span>         <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">,</span>   <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>   <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Thanksgiving Day&#39;</span><span class="p">,</span>     <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span>    <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="mi">4</span><span class="p">,</span>     <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">},</span>
+    <span class="p">{</span><span class="ss">:day</span> <span class="o">=&gt;</span> <span class="s1">&#39;Christmas&#39;</span><span class="p">,</span>            <span class="ss">:week</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>  <span class="ss">:day</span> <span class="o">=&gt;</span> <span class="mi">25</span><span class="p">,</span>   <span class="ss">:wday</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>   <span class="ss">:month</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">}</span>
+  <span class="o">]</span>
+  
+  <span class="k">def</span> <span class="nf">bank_holiday?</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-2'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-2">#</a>
+        </div>
+        <p> not a bank holiday if the current day is Sat or Sun</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">return</span> <span class="kp">false</span> <span class="k">if</span> <span class="n">weekend?</span>
+    </pre></div>
+      </td>
+    </tr>
+    <tr id='section-3'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-3">#</a>
+        </div>
+        <p> select the holidays from the current month being requested</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">days</span> <span class="o">=</span> <span class="no">HOLIDAYS</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">holiday</span><span class="o">|</span> <span class="n">holiday</span><span class="o">[</span><span class="ss">:month</span><span class="o">]</span> <span class="o">==</span> <span class="nb">self</span><span class="o">.</span><span class="n">mon</span> <span class="p">}</span>
+    </pre></div>
+      </td>
+    </tr>
+    <tr id='section-4'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-4">#</a>
+        </div>
+        <p> if approaching the new year, get the holidays for it.</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">mon</span> <span class="o">==</span> <span class="mi">12</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">day</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="o">&amp;&amp;</span> <span class="nb">self</span><span class="o">.</span><span class="n">day</span> <span class="o">&lt;=</span> <span class="mi">31</span><span class="p">)</span>
+      <span class="n">days</span> <span class="o">&lt;&lt;</span> <span class="no">HOLIDAYS</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">holiday</span><span class="o">|</span> <span class="n">holiday</span><span class="o">[</span><span class="ss">:month</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="p">}</span>
+      <span class="n">days</span><span class="o">.</span><span class="n">flatten!</span>
+    <span class="k">end</span>
+    </pre></div>
+      </td>
+    </tr>
+    <tr id='section-5'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-5">#</a>
+        </div>
+        <p> return false if there is no holidays for the requested month</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="k">return</span> <span class="kp">false</span> <span class="k">unless</span> <span class="n">days</span>
+    </pre></div>
+      </td>
+    </tr>
+    <tr id='section-6'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-6">#</a>
+        </div>
+        <p> set our flag</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">holiday</span> <span class="o">=</span> <span class="kp">false</span>
+    </pre></div>
+      </td>
+    </tr>
+    <tr id='section-7'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-7">#</a>
+        </div>
+        <p> iterate over the days</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">days</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">day</span><span class="o">|</span>
+      
+      <span class="k">if</span> <span class="n">day</span><span class="o">[</span><span class="ss">:day</span><span class="o">]</span>
+        <span class="n">current_holiday</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">determine_new_years</span><span class="p">(</span><span class="n">day</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">day</span><span class="o">[</span><span class="ss">:month</span><span class="o">]</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">day</span><span class="o">[</span><span class="ss">:day</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-8'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-8">#</a>
+        </div>
+        <p> if holiday day is the same as the current day, it&rsquo;s a holiday</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>        <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">to_s</span> <span class="o">==</span> <span class="n">current_holiday</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+          <span class="n">holiday</span> <span class="o">=</span> <span class="kp">true</span>
+        <span class="k">else</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-9">#</a>
+        </div>
+        <p> check if the holiday is a sat or sun</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>          <span class="n">holiday</span> <span class="o">=</span> <span class="kp">true</span> <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">to_s</span> <span class="o">==</span> <span class="n">weekend_holiday</span><span class="p">(</span><span class="n">current_holiday</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+        <span class="k">end</span>
+      </pre></div>
+      </td>
+    </tr>
+    <tr id='section-10'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-10">#</a>
+        </div>
+        <p> day is null, check if week is null</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>      <span class="k">elsif</span> <span class="n">day</span><span class="o">[</span><span class="ss">:week</span><span class="o">]</span>
+        <span class="n">holiday</span> <span class="o">=</span> <span class="kp">true</span> <span class="k">if</span> <span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">to_s</span> <span class="o">==</span> <span class="n">get_specific_day_of_month</span><span class="p">(</span><span class="n">day</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="p">)</span>
+      <span class="k">end</span>
+      
+    <span class="k">end</span>
+    
+    <span class="n">holiday</span>
+  <span class="k">end</span>
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-11'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-11">#</a>
+        </div>
+        <p> get a specific day of the month: e.g. last monday of May</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">def</span> <span class="nf">get_specific_day_of_month</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">day</span><span class="o">[</span><span class="ss">:week</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span>
+      <span class="n">current_holiday</span> <span class="o">=</span> <span class="n">last_day_of_the_month</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="n">day</span><span class="o">[</span><span class="ss">:wday</span><span class="o">]</span> <span class="p">?</span> <span class="n">last_day_of_the_month</span> <span class="p">:</span> <span class="n">last_day</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">last_day_of_the_month</span><span class="p">)</span>
+    <span class="k">elsif</span> <span class="n">day</span><span class="o">[</span><span class="ss">:week</span><span class="o">]</span>
+      <span class="n">first_weekday</span>   <span class="o">=</span> <span class="n">first_day_of_the_month</span><span class="p">(</span><span class="n">day</span><span class="o">[</span><span class="ss">:wday</span><span class="o">]</span><span class="p">,</span> <span class="n">beginning_of_the_month</span><span class="p">)</span>
+      <span class="n">current_holiday</span> <span class="o">=</span> <span class="n">move_weeks_ahead</span><span class="p">(</span><span class="n">day</span><span class="o">[</span><span class="ss">:week</span><span class="o">]</span><span class="p">,</span> <span class="n">first_weekday</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">current_holiday</span>
+  <span class="k">end</span>
+  
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-12'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-12">#</a>
+        </div>
+        <p> Determine if the year needs bumping forward</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">def</span> <span class="nf">determine_new_years</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">day</span><span class="o">[</span><span class="ss">:day</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">day</span><span class="o">[</span><span class="ss">:month</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">self</span><span class="o">.</span><span class="n">mon</span> <span class="o">==</span> <span class="mi">12</span> <span class="o">?</span> <span class="nb">self</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:</span> <span class="nb">self</span><span class="o">.</span><span class="n">year</span>
+  <span class="k">end</span>
+  
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-13'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-13">#</a>
+        </div>
+        <p> get a date object for the first of the month</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">def</span> <span class="nf">beginning_of_the_month</span>
+    <span class="vi">@beginning_of_the_month</span> <span class="o">||=</span> <span class="no">Date</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">mon</span><span class="si">}</span><span class="s2">/01&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-14'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-14">#</a>
+        </div>
+        <p> get a date object of the last day of the month</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">def</span> <span class="nf">last_day_of_the_month</span>
+    <span class="k">if</span> <span class="nb">self</span><span class="o">.</span><span class="n">mon</span> <span class="o">==</span> <span class="mi">12</span>
+      <span class="n">next_month</span>  <span class="o">=</span> <span class="mi">1</span>
+      <span class="n">year</span>        <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">else</span>
+      <span class="n">next_month</span>  <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">mon</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">year</span>        <span class="o">=</span> <span class="nb">self</span><span class="o">.</span><span class="n">year</span>
+    <span class="k">end</span>
+    <span class="vi">@last_day_of_the_month</span> <span class="o">||=</span> <span class="no">Date</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">year</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">next_month</span><span class="si">}</span><span class="s2">/01&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+  <span class="k">end</span>
+  
+  </pre></div>
+      </td>
+    </tr>
+    <tr id='section-15'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-15">#</a>
+        </div>
+        <p> determine if it&rsquo;s a weekend and either bring back or move forward to a weekday</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>  <span class="k">def</span> <span class="nf">weekend_holiday</span><span class="p">(</span><span class="n">holiday</span><span class="p">)</span>
+    <span class="k">case</span> <span class="n">holiday</span><span class="o">.</span><span class="n">wday</span>
+    <span class="k">when</span> <span class="mi">6</span>  <span class="c1"># move holiday back 1 day</span>
+      <span class="n">holiday</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">when</span> <span class="mi">0</span>  <span class="c1"># move holoday foward 1 day</span>
+      <span class="n">holiday</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">else</span>
+      <span class="n">holiday</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+  
+  
+  <span class="k">def</span> <span class="nf">last_day</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">last_day_of_the_month</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">last_day_of_the_month</span> <span class="o">+</span> <span class="p">(</span><span class="n">day</span><span class="o">[</span><span class="ss">:wday</span><span class="o">]</span> <span class="o">-</span> <span class="n">last_day_of_the_month</span><span class="o">.</span><span class="n">wday</span><span class="p">))</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">move_weeks_ahead</span><span class="p">(</span><span class="n">weeks</span><span class="p">,</span> <span class="n">beginning_of_the_month</span><span class="p">)</span>
+    <span class="n">beginning_of_the_month</span> <span class="o">+</span> <span class="p">(</span><span class="mi">7</span> <span class="o">*</span> <span class="p">(</span><span class="n">weeks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="k">end</span>
+  
+  
+  <span class="k">def</span> <span class="nf">first_day_of_the_month</span><span class="p">(</span><span class="n">first_day</span><span class="p">,</span> <span class="n">beginning_of_the_month</span><span class="p">)</span>
+    </pre></div>
+      </td>
+    </tr>
+    <tr id='section-16'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-16">#</a>
+        </div>
+        <p> get the days required to move ahead to the requested day</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">move_ahead_by</span> <span class="o">=</span> <span class="k">if</span> <span class="n">beginning_of_the_month</span><span class="o">.</span><span class="n">wday</span> <span class="o">&gt;</span> <span class="n">first_day</span>
+      <span class="mi">7</span> <span class="o">-</span> <span class="p">(</span><span class="n">beginning_of_the_month</span><span class="o">.</span><span class="n">wday</span> <span class="o">-</span> <span class="n">first_day</span><span class="p">)</span>
+    <span class="k">elsif</span> <span class="n">beginning_of_the_month</span><span class="o">.</span><span class="n">wday</span> <span class="o">&lt;</span>  <span class="n">first_day</span>
+      <span class="n">first_day</span> <span class="o">-</span> <span class="n">beginning_of_the_month</span><span class="o">.</span><span class="n">wday</span>
+    <span class="k">elsif</span> <span class="n">beginning_of_the_month</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="n">first_day</span>
+      <span class="mi">0</span>
+    <span class="k">end</span>
+    </pre></div>
+      </td>
+    </tr>
+    <tr id='section-17'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-17">#</a>
+        </div>
+        <p> add the move ahead days to the current date</p>
+
+      </td>
+      <td class=code>
+        <div class='highlight'><pre>    <span class="n">beginning_of_the_month</span> <span class="o">+</span> <span class="n">move_ahead_by</span>
+    
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">next_business_day</span>
+    <span class="n">next_day</span> <span class="o">=</span> <span class="nb">self</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">next_day</span> <span class="k">if</span> <span class="n">next_day</span><span class="o">.</span><span class="n">is_business_day?</span>
+    <span class="k">until</span> <span class="n">next_day</span><span class="o">.</span><span class="n">is_business_day?</span>
+      <span class="n">next_day</span> <span class="o">=</span> <span class="n">next_day</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">end</span>
+    <span class="n">next_day</span>
+  <span class="k">end</span>
+  
+  
+  <span class="k">def</span> <span class="nf">is_business_day?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">weekday?</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nb">self</span><span class="o">.</span><span class="n">bank_holiday?</span>
+  <span class="k">end</span>
+  
+  
+  <span class="k">def</span> <span class="nf">monday?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="mi">1</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">tuesday?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="mi">2</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">wednesday?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="mi">3</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">thursday?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="mi">4</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">friday?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="mi">5</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">saturday?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="mi">6</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">sunday?</span>
+    <span class="nb">self</span><span class="o">.</span><span class="n">wday</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">weekday?</span>
+    <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">].</span><span class="n">include?</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">wday</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="k">def</span> <span class="nf">weekend?</span>
+    <span class="o">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="o">].</span><span class="n">include?</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">wday</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div>
+      </td>
+    </tr>
+    </table>
+</div>
+</body>
