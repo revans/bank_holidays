@@ -1,3 +1,4 @@
+require 'date'
 class Date
   
   HOLIDAYS = [
@@ -135,14 +136,14 @@ class Date
     next_day = self + 1
     return next_day if next_day.is_business_day?
     until next_day.is_business_day?
-      next_day + 1
+      next_day = next_day + 1
     end
     next_day
   end
   
   
   def is_business_day?
-    self.weekend? || self.bank_holiday?
+    self.weekday? && !self.bank_holiday?
   end
   
   

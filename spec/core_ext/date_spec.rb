@@ -3,9 +3,32 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Date do
   
   describe "Next Business Day" do
-    let(:saturday)  { Date.parse('2010/12/4') }
-    let(:sunday)    { Date.parse('2010/12/5') }
-    let(:christmas) { Date.parse('2010/12/25')}
+    let(:thursday)      { Date.parse('2010/12/2') }
+    let(:friday)        { Date.parse('2010/12/3') }
+    let(:saturday)      { Date.parse('2010/12/4') }
+    let(:sunday)        { Date.parse('2010/12/5') }
+    let(:christmas_eve) { Date.parse('2010/12/24')}
+    
+    it "should return friday for thursday as the next business day" do
+      thursday.next_business_day.to_s.should == Date.parse('2010/12/3').to_s
+    end
+    
+    it "should return monday for friday as the next business day" do
+      friday.next_business_day.to_s.should == Date.parse('2010/12/6').to_s
+    end
+    
+    it "should return monday for saturday as the next business day" do
+      saturday.next_business_day.to_s.should == Date.parse('2010/12/6').to_s
+    end
+    
+    it "should return monday for sunday as the next business day" do
+      sunday.next_business_day.to_s.should == Date.parse('2010/12/6').to_s
+    end
+    
+    it "should return dec 27th as the next business day" do
+      christmas_eve.next_business_day.to_s.should == Date.parse('2010/12/27').to_s
+    end
+    
   end
   
   describe "Bank Holidays" do
