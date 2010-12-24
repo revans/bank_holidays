@@ -20,6 +20,12 @@ class Date
     # select the holidays from the current month being requested
     days = HOLIDAYS.select { |holiday| holiday[:month] == self.mon }
     
+    # if approaching the new year, get the holidays for it.
+    if self.mon == 12 && (self.day > 30 && self.day <= 31)
+      days << HOLIDAYS.select { |holiday| holiday[:month] == 1 }
+      days.flatten!
+    end
+    
     # return false if there is no holidays for the requested month
     return false unless days
     
@@ -29,16 +35,12 @@ class Date
     # iterate over the days
     days.each do |day|
       
-      # if day is not null
-      if day[:day]        
-        
-        # parse the holiday to a date object
-        current_holiday = Date.parse("#{self.year}/#{day[:month]}/#{day[:day]}")
- 
+      if day[:day]
+        current_holiday = Date.parse("#{determine_new_years(day)}/#{day[:month]}/#{day[:day]}")
+
         # if holiday day is the same as the current day, it's a holiday
         if (self.to_s == current_holiday.to_s)
           holiday = true
-          
         else
           # check if the holiday is a sat or sun
           holiday = true if (self.to_s == weekend_holiday(current_holiday).to_s)
@@ -46,28 +48,52 @@ class Date
       
       # day is null, check if week is null
       elsif day[:week]
-        
-        # get the beginning of the month to iterate through
-        beginning_of_the_month  = Date.parse("#{self.year}/#{self.mon}/01")
-        last_day_of_the_month   = Date.parse("#{self.year}/#{self.mon + 1}/01") - 1
-
-        # get the very first monday of the month
-        if day[:week] == 0
-          current_holiday = last_day_of_the_month.wday == day[:wday] ? last_day_of_the_month : last_day(day, last_day_of_the_month)
-        elsif day[:week]
-          first_weekday   = first_day_of_the_month(day[:wday], beginning_of_the_month)
-          current_holiday = move_weeks_ahead(day[:week], first_weekday)
-        end
-        
-        holiday = true if (self.to_s == current_holiday.to_s)
-        
+        holiday = true if (self.to_s == get_specific_day_of_month(day).to_s)
       end
+      
     end
     
     holiday
   end
   
+  # get a specific day of the month: e.g. last monday of May
+  def get_specific_day_of_month(day)
+    if day[:week] == 0
+      current_holiday = last_day_of_the_month.wday == day[:wday] ? last_day_of_the_month : last_day(day, last_day_of_the_month)
+    elsif day[:week]
+      first_weekday   = first_day_of_the_month(day[:wday], beginning_of_the_month)
+      current_holiday = move_weeks_ahead(day[:week], first_weekday)
+    end
+    current_holiday
+  end
   
+  
+  # Determine if the year needs bumping forward
+  def determine_new_years(day)
+    (day[:day] == 1 && day[:month] == 1) && self.mon == 12 ? self.year + 1 : self.year
+  end
+  
+  
+  # get a date object for the first of the month
+  def beginning_of_the_month
+    @beginning_of_the_month ||= Date.parse("#{self.year}/#{self.mon}/01")
+  end
+  
+  
+  # get a date object of the last day of the month
+  def last_day_of_the_month
+    if self.mon == 12
+      next_month  = 1
+      year        = self.year + 1
+    else
+      next_month  = self.mon + 1
+      year        = self.year
+    end
+    @last_day_of_the_month ||= Date.parse("#{year}/#{next_month}/01") - 1
+  end
+  
+  
+  # determine if it's a weekend and either bring back or move forward to a weekday
   def weekend_holiday(holiday)
     case holiday.wday
     when 6  # move holiday back 1 day
@@ -104,7 +130,21 @@ class Date
     beginning_of_the_month + move_ahead_by
     
   end
-
+  
+  def next_business_day
+    next_day = self + 1
+    return next_day if next_day.is_business_day?
+    until next_day.is_business_day?
+      next_day + 1
+    end
+    next_day
+  end
+  
+  
+  def is_business_day?
+    self.weekend? || self.bank_holiday?
+  end
+  
   
   def monday?
     self.wday == 1
