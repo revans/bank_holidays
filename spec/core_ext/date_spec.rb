@@ -146,74 +146,74 @@ describe Date do
     end
   end
   
-  # describe "Weekdays" do
-  #   before(:all) do
-  #     @weekday = Date.parse("2010/12/21")
-  #     @weekend = Date.parse("2010/12/19")
-  #   end
-  #   
-  #   it "should return true when asked if it is a weekday" do
-  #     @weekday.weekday?.should be_true
-  #   end
-  #   
-  #   it "should return false when asked if it is a weekday" do
-  #     @weekend.weekday?.should be_false
-  #   end
-  # end
-  # 
-  # describe "Weekends" do
-  #   before(:all) do
-  #     @weekday = Date.parse("2010/12/21")
-  #     @weekend = Date.parse("2010/12/19")
-  #   end
-  #   
-  #   it "should return false when asked if it is a weekday" do
-  #     @weekday.weekend?.should be_false
-  #   end
-  #   
-  #   it "should return true when asked if it is a weekday" do
-  #     @weekend.weekend?.should be_true
-  #   end
-  # end
-  # 
-  # describe "Days of the week" do
-  #   before(:all) do
-  #     @today  = Date.parse("2010/12/20")
-  #     @sunday = Date.parse("2010/12/12")
-  #   end
-  #   
-  #   it "should return true when asked if it is monday" do
-  #     @today.monday?.should be_true
-  #   end
-  #   
-  #   it "should return false when asked if it is tuesday" do
-  #     @today.tuesday?.should be_false
-  #   end
-  #   
-  #   it "should return false when asked if it is wednesday" do
-  #     @today.wednesday?.should be_false
-  #   end
-  #   
-  #   it "should return false when asked if it is thursday" do
-  #     @today.thursday?.should be_false
-  #   end
-  #   
-  #   it "should return false when asked if it is friday" do
-  #     @today.friday?.should be_false
-  #   end
-  #   
-  #   it "should return false when asked if it is saturday" do
-  #     @today.saturday?.should be_false
-  #   end
-  #   
-  #   it "should return false when asked if it is sunday" do
-  #     @today.sunday?.should be_false
-  #   end
-  #   
-  #   it "should return true when testing for sunday" do
-  #     @sunday.sunday?.should be_true
-  #   end
-  #   
-  # end
+  describe "Weekdays" do
+    before(:all) do
+      @weekday = Date.parse("2010/12/21")
+      @weekend = Date.parse("2010/12/19")
+    end
+    
+    it "should return true when asked if it is a weekday" do
+      @weekday.weekday?.should be_true
+    end
+    
+    it "should return false when asked if it is a weekday" do
+      @weekend.weekday?.should be_false
+    end
+  end
+  
+  describe "Weekends" do
+    before(:all) do
+      @weekday = Date.parse("2010/12/21")
+      @weekend = Date.parse("2010/12/19")
+    end
+    
+    it "should return false when asked if it is a weekday" do
+      @weekday.weekend?.should be_false
+    end
+    
+    it "should return true when asked if it is a weekday" do
+      @weekend.weekend?.should be_true
+    end
+  end
+  
+  describe "Days of the week" do
+    before(:all) do
+      @today  = Date.parse("2010/12/20")
+      @sunday = Date.parse("2010/12/12")
+    end
+    
+    it "should return true when asked if it is monday" do
+      @today.monday?.should be_true
+    end
+    
+    it "should return false when asked if it is tuesday" do
+      @today.tuesday?.should be_false
+    end
+    
+    it "should return false when asked if it is wednesday" do
+      @today.wednesday?.should be_false
+    end
+    
+    it "should return false when asked if it is thursday" do
+      @today.thursday?.should be_false
+    end
+    
+    it "should return false when asked if it is friday" do
+      @today.friday?.should be_false
+    end
+    
+    it "should return false when asked if it is saturday" do
+      @today.saturday?.should be_false
+    end
+    
+    it "should return false when asked if it is sunday" do
+      @today.sunday?.should be_false
+    end
+    
+    it "should return true when testing for sunday" do
+      @sunday.sunday?.should be_true
+    end
+    
+  end
   
 end
